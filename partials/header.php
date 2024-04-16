@@ -24,7 +24,7 @@
         
             <a class="btn btn-sm btn-primary ms-2" href="/php-blog/users/logout.php">Logout</a>
         <?php } else { ?>
-            <a href="/php-blog/users/login.php">Login Page</a>
+            <a class="btn btn-sm btn-primary ms-2" href="/php-blog/users/login.php">Login Page</a>
         <?php } ?>
       </span>
     </div>

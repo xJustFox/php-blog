@@ -1,6 +1,21 @@
 <?php 
 session_start();
+include "../db_connection.php";
 
+$sql = "SELECT * FROM posts";
+$posts_result = $conn->query($sql);
+
+// Array per memorizzare tutti i post
+$posts = array();
+
+// Verifica se ci sono risultati
+if ($posts_result->num_rows > 0) {
+    // Itera sui risultati
+    while ($row = $posts_result->fetch_assoc()) {
+        // Aggiungi il post all'array dei post
+        $posts[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +29,20 @@ session_start();
     <body>
         <?php include_once "../partials/header.php";?>
 
-        QUI CI SONO I POST
+        <main>
+            <div class="container-lg">
+                <div class="row">
+                    <?php foreach ($posts as $post) {?>
+                        <div class="col-3">
+                            <h3><?php echo $post['title']?></h3>
+                            <div class="overflow-y-scroll" style="max-height: 200px;">
+                                <?php echo $post['content']?>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
     </body>
