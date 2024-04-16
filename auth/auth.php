@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'db_connection.php';
+include '../db_connection.php';
 
 // Prendi dati dal form di login
 $username = $_POST['username'];
@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     if (password_verify($password, $hash)) {
         // Password corretta, autentica l'utente
         $_SESSION['username'] = $username;
-        header("Location: ./public/index.php"); // Redirect alla dashboard
+        header("Location: ../index.php"); // Redirect alla dashboard
     } else {
         // Password non corretta, mostra un messaggio di errore
         echo "Credenziali non valide.";
