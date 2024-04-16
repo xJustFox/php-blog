@@ -22,6 +22,7 @@ if ($result->num_rows > 0) {
     if (password_verify($password, $hash)) {
         // Password corretta, autentica l'utente
         $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $row['id']; // Assegna l'id dell'utente alla sessione
         header("Location: ../index.php"); // Redirect alla dashboard
     } else {
         // Password non corretta, imposta un messaggio di errore nella sessione per la password

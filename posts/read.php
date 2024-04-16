@@ -37,13 +37,22 @@ if ($posts_result->num_rows > 0) {
     <main>
         <div class="container-lg pt-4 ">
             <div class="row">
+
+                <?php if (isset($_SESSION['username'])) { ?>
+                    <div class="col-12 text-end">
+                        <a class="btn btn-sm btn-primary" href="/php-blog/posts/create.php">Add Post</a>
+                    </div>
+                <?php } ?>
+
                 <?php foreach ($posts as $post) { ?>
-                    <div class="col-6">
-                        <h3><?php echo $post['title'] ?></h3>
-                        <h5>by: <?php echo $post['user_name']?></h5>
-                        <div class="badge bg-success"><?php echo $post['category_name']?></div>
-                        <div class="overflow-y-scroll" style="max-height: 200px;">
-                            <?php echo $post['content'] ?>
+                    <div class="col-6 my-4">
+                        <div class="p-3 border border-1 border-black">
+                            <h3><?php echo $post['title'] ?></h3>
+                            <h5>by: <?php echo $post['user_name'] ?></h5>
+                            <div class="badge bg-success"><?php echo $post['category_name'] ?></div>
+                            <div class="overflow-y-scroll" style="max-height: 200px;">
+                                <?php echo $post['content'] ?>
+                            </div>
                         </div>
                     </div>
                 <?php } ?>
