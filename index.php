@@ -46,9 +46,9 @@ if ($posts_result->num_rows > 0) {
                     <div class="col-6 my-4">
                         <div class="p-3 border border-1 border-black">
                             <?php if ($post['image']) { ?>
-                                <img class="w-100" src="<?php echo $post['image'] ?>" alt="">
+                                <img class="w-100" style="height: 400px;" src="<?php echo $post['image'] ?>" alt="">
                             <?php } else { ?>
-                                <img class="w-100" src="https://www.santuon.com/content/images/size/w2000/2022/06/rubber_duck.jpg" alt="">
+                                <img class="w-100" style="height: 400px;" src="https://www.santuon.com/content/images/size/w2000/2022/06/rubber_duck.jpg" alt="">
                             <?php } ?>
                             <h3><?php echo $post['title'] ?></h3>
                             <h5>by: <?php echo $post['user_name'] ?></h5>

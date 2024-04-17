@@ -82,10 +82,10 @@ if ($posts_result->num_rows > 0) {
                                         <td>
                                             <!-- Aggiungi i tuoi pulsanti qui -->
                                             <button class="btn btn-primary">Edit</button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deliteModal">Delete</button>
+                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deliteModal<?php echo $post['id'] ?>">Delete</button>
 
                                             <!-- Modal Delete -->
-                                            <div class="modal fade" id="deliteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="deliteModal<?php echo $post['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -97,8 +97,9 @@ if ($posts_result->num_rows > 0) {
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <form action="./delete.php?id=<?php echo $post['id']?>" method="GET">
-                                                                <button type="button" class="btn btn-primary">Delete</button>
+                                                            <form action="./delete.php" method="GET">
+                                                                <input type="hidden" name="id" value="<?php echo $post['id']?>">
+                                                                <button type="submit" class="btn btn-primary">Delete</button>
                                                             </form>
                                                         </div>
                                                     </div>
