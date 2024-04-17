@@ -30,6 +30,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     }
 }
 
+// Verifico se sono stati inviati i dati tramite POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $title = $_POST['title'];

@@ -78,10 +78,12 @@ if ($posts_result->num_rows > 0) {
                                             <?php echo strlen($post['content']) > 100 ? substr($post['content'], 0, 100) . '...' : substr($post['content'], 0, 100) ?>
                                         </td>
                                         <td class="d-flex">
+                                            <!-- Button edit -->
                                             <form action="./edit.php" method="GET">
                                                 <input type="hidden" name="id" value="<?php echo $post['id'] ?>">
                                                 <button type="submit" class="btn btn-primary">Edit</button>
                                             </form>
+                                            <!-- Button delete -->
                                             <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deliteModal<?php echo $post['id'] ?>">Delete</button>
 
                                             <!-- Modal Delete -->

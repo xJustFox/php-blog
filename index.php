@@ -57,7 +57,10 @@ if ($posts_result->num_rows > 0) {
                                 <?php echo $post['content'] ?>
                             </div>
                             <div class="text-end mt-3">
-                                <button class="btn btn-sm btn-primary">Show More</button>
+                                <form action="./posts/show.php" method="GET">
+                                    <input type="hidden" name="id" value="<?php echo $post['id'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-primary">Show More</button>
+                                </form>
                             </div>
                         </div>
                     </div>
