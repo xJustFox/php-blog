@@ -1,5 +1,4 @@
 <?php 
-session_start();
 
 include "../db_connection.php";
 
@@ -8,36 +7,44 @@ $categories_result = $conn->query($sql);
 
 // Array per memorizzare tutte le categorie
 $categories = array();
+// Array per memorizzare il post
+$post = array();
 
-// Verifica se ci sono risultati
+// Verifico se ci sono risultati
 if ($categories_result->num_rows > 0) {
     while ($row = $categories_result->fetch_assoc()) {
         $categories[] = $row;
     }
 }
 
-// Verifica se i dati sono stati inviati
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recupero i dati del form
-    $title = $_POST["title"];
-    $content = $_POST["content"];
-    $image = $_POST["image"]; // Da modificare
-    $user_id = $_SESSION['user_id'];
-    $category_id = $_POST["category_id"];
+// Verifico se è stato inviato un parametro "id" tramite GET
+if(isset($_GET['id']) && !empty($_GET['id'])) {
+    $id = $_GET['id'];
 
-    // Preparo la query per inserire i dati
-    $stmt = $conn->prepare("INSERT INTO posts (title, content, image, user_id, category_id) VALUES (?, ?, ?, ?, ?)");
-    // Associa i parametri alla query
-    $stmt->bind_param("sssii", $title, $content, $image, $user_id, $category_id);
+    $sql = "SELECT * FROM posts WHERE id = $id";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $post = $row;
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST['id'];
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $image = $_POST['image'];
+    $category_id = $_POST['category_id'];
+
+    $stmt = $conn->prepare("UPDATE posts SET title=?, content=?, image=?, category_id=? WHERE id=?");
+    $stmt->bind_param("ssssi", $title, $content, $image, $category_id, $id);
 
     if ($stmt->execute()) {
         header("Location: ./read.php");
     } else {
-        echo "Errore: " . $stmt . "<br>" . $conn->error;
+        echo "Errore durante l'aggiornamento del record: " . $conn->error;
     }
-
-    // Chiudo la connessione al database
-    $conn->close();
 }
 ?>
 
@@ -60,17 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="row justify-content-center">
                         <form class="col-6 row p-2 border border-1 border-black" style="background: rgb(178 178 178);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                             <label for="title">Title:</label><br>
-                            <input type="text" id="title" name="title"><br>
+                            <input type="text" id="title" name="title" value="<?php echo $post['title']?>"><br>
                             <label for="content">Content:</label><br>
-                            <textarea id="content" name="content"></textarea><br>
+                            <textarea id="content" name="content"><?php echo $post['content']?></textarea><br>
                             <label for="image">Image:</label><br>
-                            <input type="text" id="image" name="image"><br>
+                            <input type="text" id="image" name="image" value="<?php echo $post['image']?>"><br>
                             <label for="category_id">Category:</label><br>
                             <select name="category_id" id="category_id">
                                 <?php foreach ($categories as $category) { ?>
-                                    <option value="<?php echo $category['id'] ?>"> <?php echo $category['name'] ?> </option>        
+                                    <option value="<?php echo $category['id'] ?>" <?php echo $category['id'] == $post['category_id'] ? 'selected' : '' ?>> <?php echo $category['name'] ?> </option>        
                                 <?php } ?>
                             </select>
+                            <input type="hidden" name="id" value="<?php echo $post['id']; ?>">
                             <input class="btn btn-sm btn-primary mt-2" type="submit" value="Submit">
                         </form>
                     </div>

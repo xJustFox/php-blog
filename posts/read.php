@@ -19,9 +19,7 @@ $posts = array();
 
 // Verifica se ci sono risultati
 if ($posts_result->num_rows > 0) {
-    // Itera sui risultati
     while ($row = $posts_result->fetch_assoc()) {
-        // Aggiungi il post all'array dei post
         $posts[] = $row;
     }
 }
@@ -79,10 +77,12 @@ if ($posts_result->num_rows > 0) {
                                         <td style="max-width: 200px">
                                             <?php echo strlen($post['content']) > 100 ? substr($post['content'], 0, 100) . '...' : substr($post['content'], 0, 100) ?>
                                         </td>
-                                        <td>
-                                            <!-- Aggiungi i tuoi pulsanti qui -->
-                                            <button class="btn btn-primary">Edit</button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deliteModal<?php echo $post['id'] ?>">Delete</button>
+                                        <td class="d-flex">
+                                            <form action="./edit.php" method="GET">
+                                                <input type="hidden" name="id" value="<?php echo $post['id'] ?>">
+                                                <button type="submit" class="btn btn-primary">Edit</button>
+                                            </form>
+                                            <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deliteModal<?php echo $post['id'] ?>">Delete</button>
 
                                             <!-- Modal Delete -->
                                             <div class="modal fade" id="deliteModal<?php echo $post['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,7 +98,7 @@ if ($posts_result->num_rows > 0) {
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                             <form action="./delete.php" method="GET">
-                                                                <input type="hidden" name="id" value="<?php echo $post['id']?>">
+                                                                <input type="hidden" name="id" value="<?php echo $post['id'] ?>">
                                                                 <button type="submit" class="btn btn-primary">Delete</button>
                                                             </form>
                                                         </div>

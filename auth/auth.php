@@ -11,9 +11,12 @@ $password = $_POST['password'];
 $_SESSION['password_error_message'] = "";
 $_SESSION['username_error_message'] = "";
 
-// Query per ottenere l'hash della password dell'utente
-$sql = "SELECT * FROM users WHERE username='$username'";
-$result = $conn->query($sql);
+// Utilizza un'istruzione preparata per ottenere l'hash della password dell'utente
+$sql = "SELECT id, username, password FROM users WHERE username=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -35,5 +38,6 @@ if ($result->num_rows > 0) {
     header("Location: ../users/login.php");
 }
 
+$stmt->close();
 $conn->close();
 ?>
