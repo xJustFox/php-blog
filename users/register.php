@@ -15,23 +15,23 @@ session_start();
     <?php include_once "../partials/header.php"; ?>
     <div class="container-lg" style="height: 80vh;">
         <div class="row justify-content-center  align-items-center h-100">
-            <form class="col-6 row p-2 border border-1 border-black" style="background: rgb(178 178 178);" action="../auth/auth.php" method="POST">
+            <form class="col-6 row p-2 border border-1 border-black" style="background: rgb(178 178 178);" action="../auth/auth-register.php" method="POST">
                 <div class="mb-2">
                     <label for="username">Username:</label>
                     <input class="form-control" type="text" id="username" name="username">
-                    <?php if (isset($_SESSION['username_error_message'])) { ?>
-                        <div class="text-danger"> <?php echo $_SESSION['username_error_message'] ?> </div>
+                    <?php if (isset($_SESSION['username_error'])) { ?>
+                        <div class="text-danger"> <?php echo $_SESSION['username_error'] ?> </div>
                     <?php } ?>
                 </div>
                 <div class="mb-2">
                     <label for="password">Password:</label>
                     <input class="form-control" type="password" id="password" name="password">
-                    <?php if (isset($_SESSION['password_error_message'])) { ?>
-                        <div class="text-danger"><?php echo $_SESSION['password_error_message'] ?></div>
+                    <?php if (isset($_SESSION['password_error'])) { ?>
+                        <div class="text-danger"><?php echo $_SESSION['password_error'] ?></div>
                     <?php } ?>
                 </div>
                 <div class="text-end">
-                    <input class="btn btn-sm btn-primary" type="submit" value="Login">
+                    <input class="btn btn-sm btn-primary" type="submit" value="Register">
                 </div>
             </form>
         </div>
