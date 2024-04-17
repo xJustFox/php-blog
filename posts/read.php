@@ -2,10 +2,16 @@
 session_start();
 include "../db_connection.php";
 
+// recupero l'id dell'utente loggato
+$user_id = $_SESSION['user_id'];
+
+// Query per recuperare tutti i posts
 $sql = "SELECT posts.*, users.username AS user_name, categories.name AS category_name
 FROM posts
 INNER JOIN users ON posts.user_id = users.id
-INNER JOIN categories ON posts.category_id = categories.id;";
+INNER JOIN categories ON posts.category_id = categories.id
+WHERE posts.user_id='$user_id';";
+
 $posts_result = $conn->query($sql);
 
 // Array per memorizzare tutti i post
@@ -39,21 +45,70 @@ if ($posts_result->num_rows > 0) {
             <div class="row">
 
                 <?php if (isset($_SESSION['username'])) { ?>
-                    <div class="col-12 text-end">
-                        <a class="btn btn-sm btn-primary" href="/php-blog/posts/create.php">Add Post</a>
-                    </div>
-                <?php } ?>
-
-                <?php foreach ($posts as $post) { ?>
-                    <div class="col-6 my-4">
-                        <div class="p-3 border border-1 border-black">
-                            <h3><?php echo $post['title'] ?></h3>
-                            <h5>by: <?php echo $post['user_name'] ?></h5>
-                            <div class="badge bg-success"><?php echo $post['category_name'] ?></div>
-                            <div class="overflow-y-scroll" style="max-height: 200px;">
-                                <?php echo $post['content'] ?>
-                            </div>
+                    <div class="col-12 d-flex justify-content-between align-items-center ">
+                        <h1>My Posts</h1>
+                        <div>
+                            <a class="btn btn-sm btn-primary" href="/php-blog/posts/create.php">Add Post</a>
                         </div>
+                    </div>
+                    <div class="col-12 my-4">
+                        <table class="table w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Image</th>
+                                    <th>Category</th>
+                                    <th>Content</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($posts as $post) : ?>
+                                    <tr>
+                                        <td><?php echo $post['title'] ?></td>
+                                        <td><?php echo $post['user_name'] ?></td>
+                                        <td>
+                                            <?php if ($post['image']) { ?>
+                                                <img style="max-width: 100px;" src="<?php echo $post['image'] ?>" alt="">
+                                            <?php } else { ?>
+                                                <img style="max-width: 100px;" src="https://www.santuon.com/content/images/size/w2000/2022/06/rubber_duck.jpg" alt="">
+                                            <?php } ?>
+                                        </td>
+                                        <td><span class="badge bg-success"><?php echo $post['category_name'] ?></span></td>
+                                        <td style="max-width: 200px">
+                                            <?php echo strlen($post['content']) > 100 ? substr($post['content'], 0, 100) . '...' : substr($post['content'], 0, 100) ?>
+                                        </td>
+                                        <td>
+                                            <!-- Aggiungi i tuoi pulsanti qui -->
+                                            <button class="btn btn-primary">Edit</button>
+                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deliteModal">Delete</button>
+
+                                            <!-- Modal Delete -->
+                                            <div class="modal fade" id="deliteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Warning!</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete this post?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <form action="./delete.php?id=<?php echo $post['id']?>" method="GET">
+                                                                <button type="button" class="btn btn-primary">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 <?php } ?>
             </div>
