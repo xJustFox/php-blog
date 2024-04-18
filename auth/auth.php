@@ -11,7 +11,7 @@ $password = $_POST['password'];
 $_SESSION['password_error_message'] = "";
 $_SESSION['username_error_message'] = "";
 
-// Utilizza un'istruzione preparata per ottenere l'hash della password dell'utente
+// Utilizzo un'istruzione preparata per ottenere l'hash della password dell'utente
 $sql = "SELECT id, username, password FROM users WHERE username=?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);

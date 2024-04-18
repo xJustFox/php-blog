@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include "../db_connection.php";
 
 // Array per memorizzare il post
