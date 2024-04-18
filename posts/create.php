@@ -56,6 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Associa i parametri alla query
         $stmt->bind_param("sssii", $title, $content, $image, $user_id, $category_id);
 
+        include "./error_db.php";
+
         if ($stmt->execute()) {
             $_SESSION['success'] = "Il post è stato creato con successo.";
             header("Location: ./read.php");

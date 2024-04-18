@@ -10,6 +10,8 @@ INNER JOIN categories ON posts.category_id = categories.id;";
 
 $posts_result = $conn->query($sql);
 
+include "./error_db.php";
+
 // Array per memorizzare tutti i post
 $posts = array();
 

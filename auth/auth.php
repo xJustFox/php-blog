@@ -16,6 +16,9 @@ $sql = "SELECT id, username, password FROM users WHERE username=?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
+
+include "./error_db.php";
+
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
