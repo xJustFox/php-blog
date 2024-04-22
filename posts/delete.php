@@ -10,7 +10,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
 
-    include "./error_db.php";
+    include "../error_db.php";
 
     if ($stmt->execute() === TRUE) {
         header("Location: /php-blog/posts/read.php");

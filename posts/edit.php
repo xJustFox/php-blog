@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("UPDATE posts SET title=?, content=?, image=?, category_id=? WHERE id=?");
         $stmt->bind_param("ssssi", $title, $content, $image, $category_id, $id);
 
-        include "./error_db.php";
+        include "../error_db.php";
 
         if ($stmt->execute()) {
             header("Location: ./read.php");

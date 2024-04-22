@@ -21,7 +21,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     // Esegui la query
     $stmt->execute();
 
-    include "./error_db.php";
+    include "../error_db.php";
 
     // Ottieni il risultato
     $result = $stmt->get_result();
