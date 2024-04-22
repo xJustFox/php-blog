@@ -17,7 +17,7 @@ $stmt_check_user = $conn->prepare($sql_check_user);
 $stmt_check_user->bind_param("s", $username);
 $stmt_check_user->execute();
 
-include "./error_db.php";
+include "../error_db.php";
 
 $result_check_user = $stmt_check_user->get_result();
 
@@ -37,7 +37,7 @@ if ($result_check_user->num_rows == 0) {
         $stmt_get_user->bind_param("s", $username);
         $stmt_get_user->execute();
 
-        include "./error_db.php";
+        include "../error_db.php";
 
         $result_get_user = $stmt_get_user->get_result();
         
